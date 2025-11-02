@@ -1,0 +1,5 @@
+{
+  "name": "English Level Calculator",
+  "description": "A modern, responsive web app for recruiters to assess a candidate's English proficiency across four key categories: General Understanding, Fluency, Vocabulary, and Pronunciation. It calculates a weighted score and provides a clear, color-coded overall level.",
+  "requestFramePermissions": []
+}
