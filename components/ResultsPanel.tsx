@@ -1,16 +1,18 @@
+
 import React, { useState, useMemo } from 'react';
 import { Selections, Level } from '../types';
 import { LEVEL_CONFIG, CATEGORIES } from '../constants';
 
 interface ResultsPanelProps {
   selections: Selections;
+  candidateName: string;
   score: number;
   outcomeLevel: Level | null;
   isComplete: boolean;
   onReset: () => void;
 }
 
-const ResultsPanel: React.FC<ResultsPanelProps> = ({ selections, score, outcomeLevel, isComplete, onReset }) => {
+const ResultsPanel: React.FC<ResultsPanelProps> = ({ selections, candidateName, score, outcomeLevel, isComplete, onReset }) => {
   const [copied, setCopied] = useState(false);
 
   const summaryText = useMemo(() => {
@@ -20,12 +22,15 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ selections, score, outcomeL
       `${category.name}:'${selections[category.name]}'`
     );
 
+    const header = candidateName.trim() ? [`CANDIDATE: ${candidateName.trim()}`, ''] : [];
+
     return [
+      ...header,
       'SUMMARY',
       ...summaryLines,
       `Result:'${outcomeLevel}'`
     ].join('\n');
-  }, [selections, outcomeLevel, isComplete]);
+  }, [selections, outcomeLevel, isComplete, candidateName]);
   
   const handleCopy = () => {
     if (summaryText) {
@@ -55,7 +60,15 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ selections, score, outcomeL
 
       {isComplete && (
         <div className="bg-white p-6 rounded-xl shadow-lg animate-fade-in">
-          <h3 className="text-xl font-bold text-slate-800 border-b pb-3 mb-4">Summary</h3>
+          <div className="border-b pb-3 mb-4">
+            <h3 className="text-xl font-bold text-slate-800">Summary</h3>
+            {candidateName.trim() && (
+               <p className="text-md font-semibold text-slate-600 mt-1">
+                Candidate: <span className="font-bold text-slate-800">{candidateName.trim()}</span>
+              </p>
+            )}
+          </div>
+
           <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
             <pre className="text-sm text-slate-700 whitespace-pre-wrap font-sans">
               {summaryText}

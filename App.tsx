@@ -5,16 +5,23 @@ import CategorySelector from './components/CategorySelector';
 import ResultsPanel from './components/ResultsPanel';
 import { Selections, CategoryName, Level } from './types';
 import { CATEGORIES, LEVEL_CONFIG, getOutcomeLevel } from './constants';
+import CandidateInput from './components/CandidateInput';
 
 const App: React.FC = () => {
   const [selections, setSelections] = useState<Selections>({});
+  const [candidateName, setCandidateName] = useState('');
 
   const handleSelect = useCallback((category: CategoryName, level: Level) => {
     setSelections(prev => ({ ...prev, [category]: level }));
   }, []);
 
+  const handleNameChange = useCallback((name: string) => {
+    setCandidateName(name);
+  }, []);
+
   const handleReset = useCallback(() => {
     setSelections({});
+    setCandidateName('');
   }, []);
 
   const { score, outcomeLevel, isComplete } = useMemo(() => {
@@ -44,6 +51,7 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
           <div className="lg:col-span-2 space-y-8">
+            <CandidateInput value={candidateName} onChange={handleNameChange} />
             {CATEGORIES.map(category => (
               <CategorySelector
                 key={category.name}
@@ -56,6 +64,7 @@ const App: React.FC = () => {
           <div className="mt-8 lg:mt-0">
             <ResultsPanel
               selections={selections}
+              candidateName={candidateName}
               score={score}
               outcomeLevel={outcomeLevel}
               isComplete={isComplete}
