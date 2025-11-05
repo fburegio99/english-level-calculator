@@ -43,7 +43,8 @@ export const CATEGORIES: { name: CategoryName; weight: number; description: stri
   },
   {
     name: 'Vocabulary',
-    weight: 0.2'Measures the range and appropriate use of words.',
+    weight: 0.2,
+    description: 'Measures the range and appropriate use of words.'
     levelDescriptions: {
       [Level.Excellent]: 'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts, including idiomatic or nuanced expressions.',
       [Level.VeryGood]: 'The candidate uses good vocabulary and can express most ideas clearly, though might lack some specific or advanced terms.',
