@@ -30,7 +30,7 @@ export const CATEGORIES: {
     description: 'Assesses comprehension of spoken English.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The conversation runs smoothly and the candidate understands everything you say, including nuance and tone.',
+        'The conversation runs smoothly and the candidate understands everything you say.',
       [Level.VeryGood]:
         'The candidate understands almost everything, but may miss complex expressions or idioms.',
       [Level.Good]:
@@ -64,7 +64,7 @@ export const CATEGORIES: {
     description: 'Measures the range and appropriate use of words.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts, including idiomatic or nuanced expressions.',
+        'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts.',
       [Level.VeryGood]:
         'The candidate uses good vocabulary and can express most ideas clearly, though might lack some specific or advanced terms.',
       [Level.Good]:
