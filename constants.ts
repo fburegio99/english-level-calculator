@@ -29,31 +29,31 @@ export const CATEGORIES: { name: CategoryName; weight: number; description: stri
       [Level.Unqualified]: 'The candidate seems to barely understand spoken English. It’s certainly difficult to have a conversation in English with them.',
     },
   },
-  {
-    name: 'Fluency',
-    weight: 0.3,
-    description: 'Evaluates the flow and ease of speech.',
-    levelDescriptions: {
-      [Level.Excellent]: 'The candidate speaks naturally and confidently, with smooth and well-structured sentences. There are no long pauses or signs of hesitation.',
-      [Level.VeryGood]: 'The candidate speaks easily and keeps the conversation flowing, though may pause briefly to find words or correct small mistakes.',
-      [Level.Good]: 'The candidate can maintain a conversation but occasionally stops to think or reformulate sentences. Hesitation is noticeable but doesn’t block communication.',
-      [Level.Fair]: 'The candidate struggles to keep sentences flowing and often breaks the conversation rhythm with long pauses or fillers (“uh”, “hmm”, etc.).',
-      [Level.Unqualified]: 'The candidate speaks in broken sentences, frequently gets stuck, and is unable to maintain a coherent English conversation.',
-    },
+{
+  name: 'Fluency',
+  weight: 0.3,
+  description: 'Evaluates the flow and ease of speech.',
+  levelDescriptions: {
+    [Level.Excellent]: 'The candidate speaks naturally and confidently, with smooth and well-structured sentences. There are no long pauses or signs of hesitation.',
+    [Level.VeryGood]: 'The candidate speaks easily and keeps the conversation flowing, though may pause briefly to find words or correct small mistakes.',
+    [Level.Good]: 'The candidate can maintain a conversation but occasionally stops to think or reformulate sentences. Hesitation is noticeable but doesn’t block communication.',
+    [Level.Fair]: 'The candidate struggles to keep sentences flowing and often breaks the conversation rhythm with long pauses or fillers ("uh", "hmm", etc.).',
+    [Level.Unqualified]: 'The candidate speaks in broken sentences, frequently gets stuck, and is unable to maintain a coherent English conversation.',
   },
-  {
-    name: 'Vocabulary',
-    weight: 0.2,
-    description: 'Measures the range and appropriate use of words.'
-    levelDescriptions: {
-      [Level.Excellent]: 'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts, including idiomatic or nuanced expressions.',
-      [Level.VeryGood]: 'The candidate uses good vocabulary and can express most ideas clearly, though might lack some specific or advanced terms.',
-      [Level.Good]: 'The candidate can communicate basic and work-related ideas but tends to repeat words or rely on simple expressions.',
-      [Level.Fair]: 'The candidate’s vocabulary is limited and makes it hard to explain ideas clearly. They often use incorrect or incomplete words.',
-      [Level.Unqualified]: 'The candidate has very limited vocabulary and cannot express themselves beyond basic or memorized phrases.',
-    },
+},
+{
+  name: 'Vocabulary',
+  weight: 0.2,
+  description: 'Measures the range and appropriate use of words.',
+  levelDescriptions: {
+    [Level.Excellent]: 'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts, including idiomatic or nuanced expressions.',
+    [Level.VeryGood]: 'The candidate uses good vocabulary and can express most ideas clearly, though might lack some specific or advanced terms.',
+    [Level.Good]: 'The candidate can communicate basic and work-related ideas but tends to repeat words or rely on simple expressions.',
+    [Level.Fair]: 'The candidate\'s vocabulary is limited and makes it hard to explain ideas clearly. They often use incorrect or incomplete words.',
+    [Level.Unqualified]: 'The candidate has very limited vocabulary and cannot express themselves beyond basic or memorized phrases.',
   },
-  {
+},
+
     name: 'Pronunciation',
     weight: 0.15,
     description: 'Judges the clarity and accuracy of spoken sounds.',
