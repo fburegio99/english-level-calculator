@@ -96,9 +96,8 @@ export const CATEGORIES: {
 
 export const getOutcomeLevel = (score: number): Level | null => {
   if (score >= 4.5) return Level.Excellent;
-  if (score >= 3.5) return Level.VeryGood;
+  if (score > 3.5) return Level.VeryGood;
   if (score >= 2.5) return Level.Good;
   if (score >= 1.5) return Level.Fair;
-  if (score >= 1.0) return Level.Unqualified;
-  return null;
+  return Level.Unqualified;
 };
