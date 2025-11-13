@@ -26,7 +26,7 @@ export const CATEGORIES: {
 }[] = [
   {
     name: 'General Understanding',
-    weight: 0.35,
+    weight: 0.30,
     description: 'Assesses comprehension of spoken English.',
     levelDescriptions: {
       [Level.Excellent]:
@@ -43,7 +43,7 @@ export const CATEGORIES: {
   },
   {
     name: 'Fluency',
-    weight: 0.30,
+    weight: 0.25,
     description: 'Evaluates the flow and ease of speech.',
     levelDescriptions: {
       [Level.Excellent]:
@@ -60,7 +60,7 @@ export const CATEGORIES: {
   },
   {
     name: 'Vocabulary',
-    weight: 0.20,
+    weight: 0.25,
     description: 'Measures the range and appropriate use of words.',
     levelDescriptions: {
       [Level.Excellent]:
@@ -77,7 +77,7 @@ export const CATEGORIES: {
   },
   {
     name: 'Pronunciation',
-    weight: 0.15,
+    weight: 0.20,
     description: 'Judges the clarity and accuracy of spoken sounds.',
     levelDescriptions: {
       [Level.Excellent]:
