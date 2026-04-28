@@ -19,9 +19,10 @@ const Header: React.FC = () => {
       setClickCount(0);
       setShowEasterEgg(true);
 
+      // 🎵 Play sound (controlled volume)
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
-        audioRef.current.volume = 0.2; // 👈 0.0 to 1.0
+        audioRef.current.volume = 0.4;
         audioRef.current.play();
 
         setTimeout(() => {
@@ -29,11 +30,13 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 4600);
+        }, 5200);
       }
 
+      // 🔁 Switch to Feli logo
       setTimeout(() => setShowFeliLogo(true), 200);
 
+      // 🔁 Back to original
       setTimeout(() => {
         setShowFeliLogo(false);
         setShowEasterEgg(false);
@@ -110,12 +113,9 @@ const Header: React.FC = () => {
         </div>
       </div>
 
+      {/* 🎉 Confetti only (no text now) */}
       {showEasterEgg && (
         <>
-          <div className="absolute left-6 top-14 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold animate-bounce z-50">
-            Stop clicking me!
-          </div>
-
           {Array.from({ length: 24 }).map((_, index) => (
             <span
               key={index}
