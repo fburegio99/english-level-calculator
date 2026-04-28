@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CategoryName, Level } from '../types';
 import { LEVEL_CONFIG, LEVELS_ORDER } from '../constants';
@@ -13,31 +12,63 @@ interface CategorySelectorProps {
   onSelect: (category: CategoryName, level: Level) => void;
 }
 
-const CategorySelector: React.FC<CategorySelectorProps> = ({ category, selectedLevel, onSelect }) => {
+const CategorySelector: React.FC<CategorySelectorProps> = ({
+  category,
+  selectedLevel,
+  onSelect,
+}) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg transition-shadow hover:shadow-xl">
-      <h2 className="text-2xl font-bold text-slate-800">{category.name}</h2>
-      <p className="text-slate-500 mt-1 mb-6">{category.description}</p>
-      <div className="space-y-3">
+    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+      <div className="mb-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+          {category.name}
+        </h2>
+        <p className="text-slate-500 mt-1 text-sm">
+          {category.description}
+        </p>
+      </div>
+
+      <div className="space-y-2.5">
         {LEVELS_ORDER.map((level) => {
           const isSelected = selectedLevel === level;
           const config = LEVEL_CONFIG[level];
-          const ringColor = isSelected ? config.textColor.replace('text-', 'ring-') : 'ring-slate-300';
-          const hoverRingColor = isSelected ? ringColor : 'hover:ring-blue-400';
-          
+
           return (
             <button
               key={level}
+              type="button"
               onClick={() => onSelect(category.name, level)}
-              className={`w-full text-left p-4 rounded-lg border-2 border-transparent ring-2 ${ringColor} ${hoverRingColor} focus:outline-none focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out ${isSelected ? 'bg-blue-50' : 'bg-slate-50 hover:bg-white'}`}
+              className={`group w-full text-left p-3.5 rounded-xl border transition-all duration-200 ease-out
+                ${
+                  isSelected
+                    ? 'border-blue-500 bg-blue-50 shadow-sm scale-[1.01]'
+                    : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-300 hover:shadow-sm hover:-translate-y-0.5'
+                }
+                focus:outline-none focus:ring-2 focus:ring-blue-100`}
             >
-              <div className="flex justify-between items-center">
-                <span className={`font-semibold text-lg ${isSelected ? 'text-blue-600' : 'text-slate-700'}`}>{level}</span>
-                <div className={`w-5 h-5 rounded-full ${config.color}`}></div>
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <span
+                    className={`font-semibold text-base ${
+                      isSelected ? 'text-blue-700' : 'text-slate-800'
+                    }`}
+                  >
+                    {level}
+                  </span>
+
+                  <p
+                    className={`mt-1 text-xs sm:text-sm leading-5 ${
+                      isSelected ? 'text-slate-700' : 'text-slate-500'
+                    }`}
+                  >
+                    {category.levelDescriptions[level]}
+                  </p>
+                </div>
+
+                <div
+                  className={`w-4 h-4 rounded-full shrink-0 mt-1 ${config.color} transition-transform duration-200 group-hover:scale-110`}
+                />
               </div>
-              <p className={`mt-1 text-sm ${isSelected ? 'text-slate-600' : 'text-slate-500'}`}>
-                {category.levelDescriptions[level]}
-              </p>
             </button>
           );
         })}
