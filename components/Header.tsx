@@ -28,7 +28,7 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 5200);
+        }, 4800);
       }
 
       setTimeout(() => setShowFeliLogo(true), 200);
