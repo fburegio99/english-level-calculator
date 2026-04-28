@@ -30,7 +30,7 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 4200);
+        }, 4300);
       }
 
       // 🔁 Switch to Feli logo
