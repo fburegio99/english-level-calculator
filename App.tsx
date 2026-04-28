@@ -47,14 +47,8 @@ const App: React.FC = () => {
     setSelections(prev => ({ ...prev, [category]: level }));
 
     setTimeout(() => {
-      setCurrentStep(prev => {
-        if (prev < CATEGORIES.length) {
-          return prev + 1;
-        }
-
-        return prev;
-      });
-    }, 250);
+      setCurrentStep(prev => Math.min(prev + 1, CATEGORIES.length));
+    }, 350);
   }, []);
 
   const handleNameChange = useCallback((name: string) => {
@@ -82,10 +76,12 @@ const App: React.FC = () => {
 
     const totalScore = CATEGORIES.reduce((acc, category) => {
       const selectedLevel = selections[category.name];
+
       if (selectedLevel) {
         const levelScore = LEVEL_CONFIG[selectedLevel].score;
         return acc + levelScore * category.weight;
       }
+
       return acc;
     }, 0);
 
@@ -94,66 +90,76 @@ const App: React.FC = () => {
   }, [selections]);
 
   const currentCategory = CATEGORIES[currentStep];
+  const progressPercentage = Math.min(
+    ((currentStep + 1) / CATEGORIES.length) * 100,
+    100
+  );
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
       <Header />
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
           <div className="lg:col-span-2 space-y-8">
             <CandidateInput value={candidateName} onChange={handleNameChange} />
 
             {!isComplete && currentCategory && (
               <>
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-sm font-medium text-slate-500">
-                      Step {currentStep + 1} of {CATEGORIES.length}
-                    </p>
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-700">
+                        Step {currentStep + 1} of {CATEGORIES.length}
+                      </p>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Select the best option. The form will move forward automatically.
+                      </p>
+                    </div>
 
                     {currentStep > 0 && (
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                        className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
                       >
                         Back
                       </button>
                     )}
                   </div>
 
-                  <div className="w-full bg-slate-200 rounded-full h-2">
+                  <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                     <div
-                      className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
-                      style={{
-                        width: `${((currentStep + 1) / CATEGORIES.length) * 100}%`,
-                      }}
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                      style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
                 </div>
 
-                <CategorySelector
-                  key={currentCategory.name}
-                  category={currentCategory}
-                  selectedLevel={selections[currentCategory.name]}
-                  onSelect={handleSelect}
-                />
+                <div className="animate-fadeIn">
+                  <CategorySelector
+                    key={currentCategory.name}
+                    category={currentCategory}
+                    selectedLevel={selections[currentCategory.name]}
+                    onSelect={handleSelect}
+                  />
+                </div>
               </>
             )}
 
             {isComplete && (
-              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
-                <h2 className="text-xl font-semibold text-slate-800 mb-2">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+                <h2 className="text-2xl font-bold text-slate-800 mb-2">
                   Assessment complete
                 </h2>
                 <p className="text-slate-600">
-                  You can review the result on the panel.
+                  You can review the final result on the panel.
                 </p>
 
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                  className="mt-6 rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
                 >
                   Back to previous category
                 </button>
@@ -162,14 +168,16 @@ const App: React.FC = () => {
           </div>
 
           <div className="mt-8 lg:mt-0">
-            <ResultsPanel
-              selections={selections}
-              candidateName={candidateName}
-              score={score}
-              outcomeLevel={outcomeLevel}
-              isComplete={isComplete}
-              onReset={handleReset}
-            />
+            <div className="lg:sticky lg:top-6">
+              <ResultsPanel
+                selections={selections}
+                candidateName={candidateName}
+                score={score}
+                outcomeLevel={outcomeLevel}
+                isComplete={isComplete}
+                onReset={handleReset}
+              />
+            </div>
           </div>
         </div>
       </main>
