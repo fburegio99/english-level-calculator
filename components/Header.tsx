@@ -21,7 +21,7 @@ const Header: React.FC = () => {
 
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
-        audioRef.current.volume = 0.4; // 👈 0.0 to 1.0
+        audioRef.current.volume = 0.2; // 👈 0.0 to 1.0
         audioRef.current.play();
 
         setTimeout(() => {
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 4800);
+        }, 4600);
       }
 
       setTimeout(() => setShowFeliLogo(true), 200);
