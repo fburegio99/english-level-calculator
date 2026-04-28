@@ -34,24 +34,16 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({
-        selections,
-        candidateName,
-        currentStep,
-      })
+      JSON.stringify({ selections, candidateName, currentStep })
     );
   }, [selections, candidateName, currentStep]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentStep]);
 
   const handleSelect = useCallback((category: CategoryName, level: Level) => {
     setSelections(prev => ({ ...prev, [category]: level }));
 
     setTimeout(() => {
       setCurrentStep(prev => Math.min(prev + 1, CATEGORIES.length));
-    }, 350);
+    }, 280);
   }, []);
 
   const handleNameChange = useCallback((name: string) => {
@@ -71,8 +63,7 @@ const App: React.FC = () => {
   }, []);
 
   const { score, outcomeLevel, isComplete } = useMemo(() => {
-    const selectedCategories = Object.keys(selections);
-    const isComplete = selectedCategories.length === CATEGORIES.length;
+    const isComplete = Object.keys(selections).length === CATEGORIES.length;
 
     if (!isComplete) {
       return { score: 0, outcomeLevel: null, isComplete: false };
@@ -82,20 +73,22 @@ const App: React.FC = () => {
       const selectedLevel = selections[category.name];
 
       if (selectedLevel) {
-        const levelScore = LEVEL_CONFIG[selectedLevel].score;
-        return acc + levelScore * category.weight;
+        return acc + LEVEL_CONFIG[selectedLevel].score * category.weight;
       }
 
       return acc;
     }, 0);
 
-    const finalOutcome = getOutcomeLevel(totalScore);
-    return { score: totalScore, outcomeLevel: finalOutcome, isComplete: true };
+    return {
+      score: totalScore,
+      outcomeLevel: getOutcomeLevel(totalScore),
+      isComplete: true,
+    };
   }, [selections]);
 
   useEffect(() => {
     if (isComplete && audioRef.current && !hasPlayedRef.current) {
-      audioRef.current.currentTime = 2.0;
+      audioRef.current.currentTime = 1.7;
       audioRef.current.play();
       hasPlayedRef.current = true;
     }
@@ -112,17 +105,17 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
+    <div className="bg-slate-50 min-h-screen font-sans text-slate-800 overflow-hidden">
       <Header />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
-        <div className="space-y-8">
-          <CandidateInput value={candidateName} onChange={handleNameChange} />
-
-          {!isComplete && currentCategory && (
+      <main className="h-[calc(100vh-57px)] max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div className="h-full flex flex-col justify-center gap-4">
+          {!isComplete && (
             <>
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
-                <div className="flex items-center justify-between mb-4">
+              <CandidateInput value={candidateName} onChange={handleNameChange} />
+
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
+                <div className="flex items-center justify-between mb-3">
                   <div>
                     <p className="text-sm font-semibold text-slate-700">
                       Step {currentStep + 1} of {CATEGORIES.length}
@@ -151,19 +144,20 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <div className="animate-fadeIn">
-                <CategorySelector
-                  key={currentCategory.name}
-                  category={currentCategory}
-                  selectedLevel={selections[currentCategory.name]}
-                  onSelect={handleSelect}
-                />
-              </div>
+              {currentCategory && (
+                <div key={currentCategory.name} className="animate-[fadeIn_0.35s_ease-out]">
+                  <CategorySelector
+                    category={currentCategory}
+                    selectedLevel={selections[currentCategory.name]}
+                    onSelect={handleSelect}
+                  />
+                </div>
+              )}
             </>
           )}
 
           {isComplete && (
-            <>
+            <div className="animate-[fadeIn_0.35s_ease-out]">
               <ResultsPanel
                 selections={selections}
                 candidateName={candidateName}
@@ -177,12 +171,12 @@ const App: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="mt-6 rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
+                  className="mt-4 rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
                 >
                   Back to previous category
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </main>
