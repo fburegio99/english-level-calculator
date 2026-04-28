@@ -75,7 +75,7 @@ const Header: React.FC = () => {
       {showEasterEgg && (
         <>
           <div className="absolute left-6 top-14 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold animate-bounce z-50">
-            Stop clicking me!
+            Feli was here!
           </div>
 
           {Array.from({ length: 24 }).map((_, index) => (
