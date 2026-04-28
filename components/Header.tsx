@@ -21,6 +21,7 @@ const Header: React.FC = () => {
 
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
+        audioRef.current.volume = 0.4; // 👈 0.0 to 1.0
         audioRef.current.play();
 
         setTimeout(() => {
