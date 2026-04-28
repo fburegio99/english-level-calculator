@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Header: React.FC = () => {
+  const [darkMode, setDarkMode] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('darkMode');
+
+    if (saved === 'true') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode(prev => {
+      const newValue = !prev;
+
+      if (newValue) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('darkMode', 'false');
+      }
+
+      return newValue;
+    });
+  };
 
   const handleLogoClick = () => {
     setIsShaking(true);
@@ -23,7 +49,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white border-b border-slate-200 relative overflow-visible">
+    <header className="bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 relative overflow-visible transition-colors">
       <style>
         {`
           @keyframes logoShake {
@@ -56,19 +82,27 @@ const Header: React.FC = () => {
       </style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center gap-4">
-          <img
-            src="/Velozient-Logo-Hi-Res.jpg"
-            alt="Velozient"
-            onClick={handleLogoClick}
-            className={`h-8 w-auto cursor-pointer select-none ${
-              isShaking ? 'logo-shake' : ''
-            }`}
-          />
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <img
+              src="/Velozient-Logo-Hi-Res.jpg"
+              alt="Velozient"
+              onClick={handleLogoClick}
+              className={`h-8 w-auto cursor-pointer select-none ${isShaking ? 'logo-shake' : ''}`}
+            />
 
-          <h1 className="text-lg sm:text-xl font-semibold text-slate-700">
-            English Level Calculator
-          </h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-slate-100">
+              English Level Calculator
+            </h1>
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="rounded-full px-4 py-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+          >
+            {darkMode ? '☀️ Light' : '🌙 Dark'}
+          </button>
         </div>
       </div>
 
@@ -84,9 +118,7 @@ const Header: React.FC = () => {
               className="confetti-piece z-40"
               style={{
                 left: `${20 + Math.random() * 220}px`,
-                backgroundColor: ['#f9a825', '#003865', '#3b82f6', '#22c55e', '#ef4444'][
-                  index % 5
-                ],
+                backgroundColor: ['#f9a825', '#003865', '#3b82f6', '#22c55e', '#ef4444'][index % 5],
                 animationDelay: `${Math.random() * 0.25}s`,
               }}
             />
