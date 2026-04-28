@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 const Header: React.FC = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const [showFeliLogo, setShowFeliLogo] = useState(false);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleLogoClick = () => {
     setIsShaking(true);
@@ -13,12 +16,30 @@ const Header: React.FC = () => {
     setClickCount(newCount);
 
     if (newCount === 5) {
-      setShowEasterEgg(true);
       setClickCount(0);
+      setShowEasterEgg(true);
 
+      // 🎵 PLAY FF SOUND (trimmed to ~4s)
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+          }
+        }, 3900); // stops before 4s
+      }
+
+      // 🔁 Switch to Feli logo
+      setTimeout(() => setShowFeliLogo(true), 200);
+
+      // 🔁 Back to original logo
       setTimeout(() => {
+        setShowFeliLogo(false);
         setShowEasterEgg(false);
-      }, 3000);
+      }, 4000);
     }
   };
 
@@ -35,6 +56,16 @@ const Header: React.FC = () => {
             100% { transform: rotate(0deg); }
           }
 
+          @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+          }
+
+          @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+          }
+
           @keyframes confettiFall {
             0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
             100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
@@ -42,6 +73,14 @@ const Header: React.FC = () => {
 
           .logo-shake {
             animation: logoShake 0.5s ease-in-out;
+          }
+
+          .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+          }
+
+          .fade-out {
+            animation: fadeOut 0.4s ease forwards;
           }
 
           .confetti-piece {
@@ -57,14 +96,26 @@ const Header: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center gap-4">
-          <img
-            src="/Velozient-Logo-Hi-Res.jpg"
-            alt="Velozient"
+
+          {/* LOGO SWITCH */}
+          <div
             onClick={handleLogoClick}
-            className={`h-8 w-auto cursor-pointer select-none ${
-              isShaking ? 'logo-shake' : ''
-            }`}
-          />
+            className={`cursor-pointer select-none ${isShaking ? 'logo-shake' : ''}`}
+          >
+            {!showFeliLogo ? (
+              <img
+                src="/Velozient-Logo-Hi-Res.jpg"
+                alt="Velozient"
+                className="h-8 w-auto fade-in"
+              />
+            ) : (
+              <img
+                src="/feli-was-here.png"
+                alt="Feli was here"
+                className="h-8 w-auto fade-in"
+              />
+            )}
+          </div>
 
           <h1 className="text-lg sm:text-xl font-semibold text-slate-700">
             English Level Calculator
@@ -72,10 +123,11 @@ const Header: React.FC = () => {
         </div>
       </div>
 
+      {/* MESSAGE + CONFETTI */}
       {showEasterEgg && (
         <>
           <div className="absolute left-6 top-14 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold animate-bounce z-50">
-            Feli was here!
+            Stop clicking me!
           </div>
 
           {Array.from({ length: 24 }).map((_, index) => (
@@ -91,6 +143,9 @@ const Header: React.FC = () => {
           ))}
         </>
       )}
+
+      {/* AUDIO */}
+      <audio ref={audioRef} src="/ff-sound.mp3" preload="auto" />
     </header>
   );
 };
