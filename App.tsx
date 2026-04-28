@@ -50,22 +50,6 @@ const App: React.FC = () => {
     }, 280);
   }, []);
 
-  const handleNameChange = useCallback((name: string) => {
-    setCandidateName(name);
-  }, []);
-
-  const handleBack = useCallback(() => {
-    setCurrentStep(prev => Math.max(prev - 1, 0));
-  }, []);
-
-  const handleReset = useCallback(() => {
-    setSelections({});
-    setCandidateName('');
-    setCurrentStep(0);
-    hasPlayedRef.current = false;
-    localStorage.removeItem(STORAGE_KEY);
-  }, []);
-
   const { score, outcomeLevel, isComplete } = useMemo(() => {
     const isComplete = Object.keys(selections).length === CATEGORIES.length;
 
@@ -90,9 +74,39 @@ const App: React.FC = () => {
     };
   }, [selections]);
 
+  const handleNameChange = useCallback((name: string) => {
+    setCandidateName(name);
+  }, []);
+
+  const handleBack = useCallback(() => {
+    if (isComplete) {
+      const lastCategory = CATEGORIES[CATEGORIES.length - 1];
+
+      setSelections(prev => {
+        const updated = { ...prev };
+        delete updated[lastCategory.name];
+        return updated;
+      });
+
+      setCurrentStep(CATEGORIES.length - 1);
+      hasPlayedRef.current = false;
+      return;
+    }
+
+    setCurrentStep(prev => Math.max(prev - 1, 0));
+  }, [isComplete]);
+
+  const handleReset = useCallback(() => {
+    setSelections({});
+    setCandidateName('');
+    setCurrentStep(0);
+    hasPlayedRef.current = false;
+    localStorage.removeItem(STORAGE_KEY);
+  }, []);
+
   useEffect(() => {
     if (isComplete && audioRef.current && !hasPlayedRef.current) {
-      audioRef.current.currentTime = 2.0;
+      audioRef.current.currentTime = 1.9;
       audioRef.current.play();
       hasPlayedRef.current = true;
     }
