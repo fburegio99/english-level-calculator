@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import CategorySelector from './components/CategorySelector';
 import ResultsPanel from './components/ResultsPanel';
@@ -12,6 +12,9 @@ const App: React.FC = () => {
   const [selections, setSelections] = useState<Selections>({});
   const [candidateName, setCandidateName] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
 
   useEffect(() => {
     const savedProgress = localStorage.getItem(STORAGE_KEY);
@@ -63,6 +66,7 @@ const App: React.FC = () => {
     setSelections({});
     setCandidateName('');
     setCurrentStep(0);
+    hasPlayedRef.current = false;
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 
@@ -88,6 +92,18 @@ const App: React.FC = () => {
     const finalOutcome = getOutcomeLevel(totalScore);
     return { score: totalScore, outcomeLevel: finalOutcome, isComplete: true };
   }, [selections]);
+
+  useEffect(() => {
+    if (isComplete && audioRef.current && !hasPlayedRef.current) {
+      audioRef.current.currentTime = 1.4;
+      audioRef.current.play();
+      hasPlayedRef.current = true;
+    }
+
+    if (!isComplete) {
+      hasPlayedRef.current = false;
+    }
+  }, [isComplete]);
 
   const currentCategory = CATEGORIES[currentStep];
   const progressPercentage = Math.min(
@@ -170,6 +186,8 @@ const App: React.FC = () => {
           )}
         </div>
       </main>
+
+      <audio ref={audioRef} src="/success.mp3" preload="auto" />
     </div>
   );
 };
