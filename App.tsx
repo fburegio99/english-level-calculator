@@ -95,7 +95,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isComplete && audioRef.current && !hasPlayedRef.current) {
-      audioRef.current.currentTime = 1.8;
+      audioRef.current.currentTime = 1.9;
       audioRef.current.play();
       hasPlayedRef.current = true;
     }
