@@ -168,17 +168,7 @@ const App: React.FC = () => {
           )}
 
           {isComplete && (
-            <div className="animate-[fadeIn_0.35s_ease-out]">
-              <div className="mb-3 text-center">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
-                >
-                  Back to previous category
-                </button>
-              </div>
-
+            <div className="animate-[fadeIn_0.35s_ease-out] pb-8">
               <ResultsPanel
                 selections={selections}
                 candidateName={candidateName}
@@ -187,6 +177,16 @@ const App: React.FC = () => {
                 isComplete={isComplete}
                 onReset={handleReset}
               />
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="mt-4 rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
+                >
+                  Back to previous category
+                </button>
+              </div>
             </div>
           )}
         </div>
