@@ -165,7 +165,7 @@ const App: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="animate-[fadeIn_0.35s_ease-out] pb-10">
+          <div className="animate-[fadeIn_0.35s_ease-out] pb-8">
             <ResultsPanel
               selections={selections}
               candidateName={candidateName}
@@ -175,11 +175,11 @@ const App: React.FC = () => {
               onReset={handleReset}
             />
 
-            <div className="text-center mt-4 mb-8">
+            <div className="mt-4 mb-6">
               <button
                 type="button"
                 onClick={handleBack}
-                className="rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
+                className="w-full rounded-xl px-5 py-3 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
               >
                 Back to previous category
               </button>
