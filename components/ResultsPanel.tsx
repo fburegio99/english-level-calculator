@@ -1,7 +1,6 @@
-
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Selections, Level } from '../types';
-import { LEVEL_CONFIG, CATEGORIES } from '../constants';
+import { CATEGORIES, LEVEL_CONFIG } from '../constants';
 
 interface ResultsPanelProps {
   selections: Selections;
@@ -12,108 +11,102 @@ interface ResultsPanelProps {
   onReset: () => void;
 }
 
-const ResultsPanel: React.FC<ResultsPanelProps> = ({ selections, candidateName, score, outcomeLevel, isComplete, onReset }) => {
-  const [copied, setCopied] = useState(false);
+const ResultsPanel: React.FC<ResultsPanelProps> = ({
+  selections,
+  candidateName,
+  score,
+  outcomeLevel,
+  isComplete,
+  onReset,
+}) => {
+  const summaryText = [
+    candidateName ? `Candidate: ${candidateName}` : null,
+    'SUMMARY',
+    ...CATEGORIES.map(category => {
+      const selectedLevel = selections[category.name];
+      return `${category.name}:'${selectedLevel || ''}'`;
+    }),
+    `Score:'${score.toFixed(2)} / 5.00'`,
+    `Result:'${outcomeLevel || ''}'`,
+  ]
+    .filter(Boolean)
+    .join('\n');
 
-  const summaryText = useMemo(() => {
-    if (!isComplete || !outcomeLevel) return '';
-
-    const summaryLines = CATEGORIES.map(category => 
-      `${category.name}:'${selections[category.name]}'`
-    );
-
-    const header = candidateName.trim() ? [`CANDIDATE: ${candidateName.trim()}`, ''] : [];
-
-    return [
-      ...header,
-      'SUMMARY',
-      ...summaryLines,
-      `Result:'${outcomeLevel}'`
-    ].join('\n');
-  }, [selections, outcomeLevel, isComplete, candidateName]);
-  
-  const handleCopy = () => {
-    if (summaryText) {
-      navigator.clipboard.writeText(summaryText).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      });
-    }
+  const handleCopySummary = async () => {
+    await navigator.clipboard.writeText(summaryText);
   };
 
-  return (
-    <div className="sticky top-8 space-y-6">
-      <div className="bg-white p-6 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-slate-800 border-b pb-3 mb-4">Outcome</h2>
-        {isComplete && outcomeLevel ? (
-          <div className={`p-8 rounded-lg text-white text-center flex flex-col items-center justify-center transition-all duration-300 ${LEVEL_CONFIG[outcomeLevel].color}`}>
-            <span className="text-5xl font-extrabold">{outcomeLevel}</span>
-            <span className="text-lg font-semibold mt-2">({score.toFixed(2)} / 5.00)</span>
-            <p className="text-sm opacity-90 mt-2">{LEVEL_CONFIG[outcomeLevel].description}</p>
-          </div>
-        ) : (
-          <div className="text-center py-10 px-4 bg-slate-100 rounded-lg">
-            <p className="text-slate-500 font-semibold">Please complete all categories to see the result.</p>
-          </div>
-        )}
-      </div>
+  if (!isComplete || !outcomeLevel) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+        <h2 className="text-xl font-bold text-slate-800">Outcome</h2>
 
-      {isComplete && (
-        <div className="bg-white p-6 rounded-xl shadow-lg animate-fade-in">
-          <div className="border-b pb-3 mb-4">
-            <h3 className="text-xl font-bold text-slate-800">Summary</h3>
-            {candidateName.trim() && (
-               <p className="text-md font-semibold text-slate-600 mt-1">
-                Candidate: <span className="font-bold text-slate-800">{candidateName.trim()}</span>
-              </p>
-            )}
-          </div>
-
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <pre className="text-sm text-slate-700 whitespace-pre-wrap font-sans">
-              {summaryText}
-            </pre>
-          </div>
-          <div className="mt-4 relative">
-            <button
-              onClick={handleCopy}
-              className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-            >
-              Copy Summary
-            </button>
-            {copied && (
-              <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 mt-2 text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full shadow-md animate-fade-in-out whitespace-nowrap">
-                ✅ Summary copied to clipboard!
-              </div>
-            )}
+        <div className="border-t border-slate-200 mt-3 pt-4">
+          <div className="bg-slate-100 rounded-xl p-6 text-center text-sm font-semibold text-slate-500">
+            Please complete all categories to see the result.
           </div>
         </div>
-      )}
-      
+
+        <button
+          type="button"
+          onClick={onReset}
+          className="mt-4 w-full rounded-xl px-5 py-3 text-sm font-semibold text-white bg-slate-600 hover:bg-slate-700 transition"
+        >
+          Reset Grades
+        </button>
+      </div>
+    );
+  }
+
+  const config = LEVEL_CONFIG[outcomeLevel];
+
+  return (
+    <div className="space-y-5">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+        <h2 className="text-xl font-bold text-slate-800">Outcome</h2>
+
+        <div className="border-t border-slate-200 mt-3 pt-4">
+          <div className={`${config.color} rounded-xl p-6 text-center text-white`}>
+            <div className="text-4xl sm:text-5xl font-black">
+              {outcomeLevel}
+            </div>
+
+            <div className="mt-2 text-base font-bold">
+              ({score.toFixed(2)} / 5.00)
+            </div>
+
+            <div className="mt-2 text-sm">
+              {config.description}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+        <h2 className="text-lg font-bold text-slate-800">Summary</h2>
+
+        <div className="border-t border-slate-200 mt-3 pt-4">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs sm:text-sm text-slate-700 whitespace-pre-line">
+            {summaryText}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleCopySummary}
+            className="mt-4 w-full rounded-xl px-5 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
+          >
+            Copy Summary
+          </button>
+        </div>
+      </div>
+
       <button
+        type="button"
         onClick={onReset}
-        className="w-full bg-slate-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors duration-200"
+        className="w-full rounded-xl px-5 py-3 text-sm font-semibold text-white bg-slate-600 hover:bg-slate-700 transition"
       >
         Reset Grades
       </button>
-
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.5s ease-out forwards;
-        }
-        @keyframes fade-in-out {
-          0% { opacity: 0; transform: translateY(10px); }
-          10%, 90% { opacity: 1; transform: translateY(0); }
-          100% { opacity: 0; transform: translateY(10px); }
-        }
-        .animate-fade-in-out {
-          animation: fade-in-out 2.5s ease-in-out forwards;
-        }
-      `}</style>
     </div>
   );
 };
