@@ -108,7 +108,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               </button>
 
               {cheatSheet && (
-                <div className="absolute left-0 top-full mt-2 hidden group-hover:block bg-slate-800 text-white text-xs rounded-lg px-3 py-2 shadow-lg z-20 w-max max-w-xs">
+                <div className="absolute left-full top-1/2 ml-3 hidden -translate-y-1/2 group-hover:block bg-slate-800 text-white text-xs rounded-lg px-3 py-2 shadow-lg z-20 w-64">
                   {cheatSheet}
                 </div>
               )}
