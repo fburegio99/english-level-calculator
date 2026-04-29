@@ -119,77 +119,73 @@ const App: React.FC = () => {
     <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
       <Header />
 
-      <main className="min-h-[calc(100vh-57px)] w-full max-w-2xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-        <div className="min-h-[calc(100vh-90px)] flex flex-col justify-center gap-3 sm:gap-4">
-          {!isComplete && (
-            <>
-              <CandidateInput value={candidateName} onChange={handleNameChange} />
+      <main className="w-full max-w-2xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
+        {!isComplete ? (
+          <div className="min-h-[calc(100vh-90px)] flex flex-col justify-center gap-3 sm:gap-4">
+            <CandidateInput value={candidateName} onChange={handleNameChange} />
 
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4">
-                <div className="flex items-center justify-between mb-2 sm:mb-3 gap-3">
-                  <div>
-                    <p className="text-xs sm:text-sm font-semibold text-slate-700">
-                      Step {currentStep + 1} of {CATEGORIES.length}
-                    </p>
-                    <p className="text-[11px] sm:text-xs text-slate-500 mt-1">
-                      Select the best option. The form will move forward automatically.
-                    </p>
-                  </div>
-
-                  {currentStep > 0 && (
-                    <button
-                      type="button"
-                      onClick={handleBack}
-                      className="rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
-                    >
-                      Back
-                    </button>
-                  )}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4">
+              <div className="flex items-center justify-between mb-2 sm:mb-3 gap-3">
+                <div>
+                  <p className="text-xs sm:text-sm font-semibold text-slate-700">
+                    Step {currentStep + 1} of {CATEGORIES.length}
+                  </p>
+                  <p className="text-[11px] sm:text-xs text-slate-500 mt-1">
+                    Select the best option. The form will move forward automatically.
+                  </p>
                 </div>
 
-                <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${progressPercentage}%` }}
-                  />
-                </div>
+                {currentStep > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    className="rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
+                  >
+                    Back
+                  </button>
+                )}
               </div>
 
-              {currentCategory && (
-                <div key={currentCategory.name} className="animate-[fadeIn_0.35s_ease-out]">
-                  <CategorySelector
-                    category={currentCategory}
-                    selectedLevel={selections[currentCategory.name]}
-                    onSelect={handleSelect}
-                  />
-                </div>
-              )}
-            </>
-          )}
-
-          {isComplete && (
-            <div className="animate-[fadeIn_0.35s_ease-out] pb-8">
-              <ResultsPanel
-                selections={selections}
-                candidateName={candidateName}
-                score={score}
-                outcomeLevel={outcomeLevel}
-                isComplete={isComplete}
-                onReset={handleReset}
-              />
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="mt-4 rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
-                >
-                  Back to previous category
-                </button>
+              <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${progressPercentage}%` }}
+                />
               </div>
             </div>
-          )}
-        </div>
+
+            {currentCategory && (
+              <div key={currentCategory.name} className="animate-[fadeIn_0.35s_ease-out]">
+                <CategorySelector
+                  category={currentCategory}
+                  selectedLevel={selections[currentCategory.name]}
+                  onSelect={handleSelect}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="animate-[fadeIn_0.35s_ease-out] pb-10">
+            <ResultsPanel
+              selections={selections}
+              candidateName={candidateName}
+              score={score}
+              outcomeLevel={outcomeLevel}
+              isComplete={isComplete}
+              onReset={handleReset}
+            />
+
+            <div className="text-center mt-4 mb-8">
+              <button
+                type="button"
+                onClick={handleBack}
+                className="rounded-full px-5 py-2 text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition"
+              >
+                Back to previous category
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
       <audio ref={audioRef} src="/success.mp3" preload="auto" />
