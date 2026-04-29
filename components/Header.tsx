@@ -29,7 +29,7 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 4700);
+        }, 4600);
       }
 
       setTimeout(() => setShowFeliLogo(true), 200);
