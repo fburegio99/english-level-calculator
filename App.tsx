@@ -34,11 +34,7 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({
-        selections,
-        candidateName,
-        currentStep,
-      })
+      JSON.stringify({ selections, candidateName, currentStep })
     );
   }, [selections, candidateName, currentStep]);
 
@@ -59,12 +55,9 @@ const App: React.FC = () => {
 
     const totalScore = CATEGORIES.reduce((acc, category) => {
       const selectedLevel = selections[category.name];
-
-      if (selectedLevel) {
-        return acc + LEVEL_CONFIG[selectedLevel].score * category.weight;
-      }
-
-      return acc;
+      return selectedLevel
+        ? acc + LEVEL_CONFIG[selectedLevel].score * category.weight
+        : acc;
     }, 0);
 
     return {
@@ -123,22 +116,22 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-800 overflow-hidden">
+    <div className="bg-slate-50 min-h-screen font-sans text-slate-800">
       <Header />
 
-      <main className="h-[calc(100vh-57px)] max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-        <div className="h-full flex flex-col justify-center gap-4">
+      <main className="min-h-[calc(100vh-57px)] w-full max-w-2xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+        <div className="min-h-[calc(100vh-90px)] flex flex-col justify-center gap-3 sm:gap-4">
           {!isComplete && (
             <>
               <CandidateInput value={candidateName} onChange={handleNameChange} />
 
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
-                <div className="flex items-center justify-between mb-3">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4">
+                <div className="flex items-center justify-between mb-2 sm:mb-3 gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">
+                    <p className="text-xs sm:text-sm font-semibold text-slate-700">
                       Step {currentStep + 1} of {CATEGORIES.length}
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-[11px] sm:text-xs text-slate-500 mt-1">
                       Select the best option. The form will move forward automatically.
                     </p>
                   </div>
@@ -147,7 +140,7 @@ const App: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleBack}
-                      className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
+                      className="rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition"
                     >
                       Back
                     </button>
