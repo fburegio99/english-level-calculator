@@ -15,11 +15,10 @@ const Header: React.FC = () => {
     const newCount = clickCount + 1;
     setClickCount(newCount);
 
-    if (newCount === 5) {
+    if (newCount === 2) {
       setClickCount(0);
       setShowEasterEgg(true);
 
-      // 🎵 Play sound (controlled volume)
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.volume = 0.4;
@@ -30,13 +29,11 @@ const Header: React.FC = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
           }
-        }, 4500);
+        }, 5200);
       }
 
-      // 🔁 Switch to Feli logo
       setTimeout(() => setShowFeliLogo(true), 200);
 
-      // 🔁 Back to original
       setTimeout(() => {
         setShowFeliLogo(false);
         setShowEasterEgg(false);
@@ -45,7 +42,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white border-b border-slate-200 relative overflow-visible">
+    <header className="bg-white border-b border-slate-200 relative overflow-visible sticky top-0 z-50">
       <style>
         {`
           @keyframes logoShake {
@@ -113,7 +110,6 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* 🎉 Confetti only (no text now) */}
       {showEasterEgg && (
         <>
           {Array.from({ length: 24 }).map((_, index) => (
