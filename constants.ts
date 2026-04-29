@@ -30,15 +30,15 @@ export const CATEGORIES: {
     description: 'Assesses comprehension of spoken English.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The conversation runs smoothly and the candidate understands everything you say.',
+        'Understands everything with ease, including complex or fast-paced conversations, without needing clarification.',
       [Level.VeryGood]:
-        'The candidate understands almost everything, but may miss complex expressions or idioms.',
+        'Understands almost everything, including most complex ideas, with only occasional need for clarification.',
       [Level.Good]:
-        'The candidate understands most of what is said but may struggle with longer or complex sentences.',
+        'Understands the main points of most conversations but may struggle with complex or detailed explanations.',
       [Level.Fair]:
-        'The candidate frequently needs repetition or rephrasing and may misunderstand basic questions.',
+        'Frequently needs repetition or rephrasing and may miss key parts of the conversation.',
       [Level.Unqualified]:
-        'The candidate understands very little and cannot follow a basic conversation in English.',
+        'Struggles to understand even simple questions or basic conversation.',
     },
   },
   {
@@ -47,15 +47,15 @@ export const CATEGORIES: {
     description: 'Evaluates the flow and ease of speech.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The candidate speaks naturally and confidently, with smooth and well-structured sentences. There are no long pauses or signs of hesitation.',
+        'Speaks naturally and confidently, with a smooth flow and no noticeable hesitation.',
       [Level.VeryGood]:
-        'The candidate speaks easily and keeps the conversation flowing, though may pause briefly to find words or correct small mistakes.',
+        'Speaks clearly and keeps the conversation going, with only occasional pauses to find words.',
       [Level.Good]:
-        'The candidate can maintain a conversation but occasionally stops to think or reformulate sentences. Hesitation is noticeable but doesn’t block communication.',
+        'Can hold a conversation but pauses regularly to think or rephrase ideas.',
       [Level.Fair]:
-        'The candidate struggles to keep sentences flowing and often breaks the conversation rhythm with long pauses or fillers ("uh", "hmm", etc.).',
+        'Often breaks the flow of conversation with long pauses or filler words.',
       [Level.Unqualified]:
-        'The candidate speaks in broken sentences, frequently gets stuck, and is unable to maintain a coherent English conversation.',
+        'Struggles to form complete sentences and cannot maintain a conversation.',
     },
   },
   {
@@ -64,15 +64,15 @@ export const CATEGORIES: {
     description: 'Measures the range and appropriate use of words.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The candidate uses a wide range of vocabulary naturally and appropriately for different contexts.',
+        'Uses a wide range of vocabulary comfortably and can express ideas clearly in different situations.',
       [Level.VeryGood]:
-        'The candidate uses good vocabulary and can express most ideas clearly, though might lack some specific or advanced terms.',
+        'Has a good range of vocabulary and can express most ideas, with occasional gaps.',
       [Level.Good]:
-        'The candidate can communicate basic and work-related ideas but tends to repeat words or rely on simple expressions.',
+        'Uses basic, work-related vocabulary but may repeat words or struggle to express more complex ideas.',
       [Level.Fair]:
-        'The candidate\'s vocabulary is limited and makes it hard to explain ideas clearly. They often use incorrect or incomplete words.',
+        'Has limited vocabulary and often struggles to express ideas clearly.',
       [Level.Unqualified]:
-        'The candidate has very limited vocabulary and cannot express themselves beyond basic or memorized phrases.',
+        'Has very basic vocabulary and cannot express ideas beyond simple phrases.',
     },
   },
   {
@@ -81,15 +81,15 @@ export const CATEGORIES: {
     description: 'Judges the clarity and accuracy of spoken sounds.',
     levelDescriptions: {
       [Level.Excellent]:
-        'The candidate\'s pronunciation is clear, natural, and easily understandable. Minor accent traces don’t interfere with comprehension.',
+        'Clear and natural pronunciation. Accent does not affect understanding at all.',
       [Level.VeryGood]:
-        'The candidate\'s accent is noticeable but doesn’t affect understanding. Words are pronounced clearly, and rhythm and stress are generally correct.',
+        'Accent is noticeable but does not impact understanding.',
       [Level.Good]:
-        'The candidate\'s pronunciation requires some effort to understand but most words are still clear. Accent occasionally interferes with comprehension.',
+        'Generally understandable, but accent or mispronunciations sometimes require extra effort.',
       [Level.Fair]:
-        'The candidate\'s pronunciation often makes comprehension difficult. Mispronounced words or incorrect stress patterns are frequent.',
+        'Pronunciation frequently makes understanding difficult.',
       [Level.Unqualified]:
-        'The candidate\'s pronunciation makes communication very difficult; many words are incomprehensible or require repetition to be understood.',
+        'Very difficult to understand. Frequent repetition is required.',
     },
   },
 ];
