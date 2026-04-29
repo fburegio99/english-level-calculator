@@ -21,7 +21,6 @@ const getCheatSheet = (categoryName: CategoryName, level: Level) => {
       [Level.Fair]: 'You had to repeat or rephrase several times.',
       [Level.Unqualified]: 'Could not follow basic questions.',
     },
-
     Fluency: {
       [Level.Excellent]: 'Speaks smoothly with no hesitation.',
       [Level.VeryGood]: 'Minor pauses, but overall natural flow.',
@@ -29,7 +28,6 @@ const getCheatSheet = (categoryName: CategoryName, level: Level) => {
       [Level.Fair]: 'Frequent pauses and broken flow.',
       [Level.Unqualified]: 'Cannot maintain a conversation.',
     },
-
     Vocabulary: {
       [Level.Excellent]: 'Uses varied and precise vocabulary naturally.',
       [Level.VeryGood]: 'Good vocabulary with occasional gaps.',
@@ -37,7 +35,6 @@ const getCheatSheet = (categoryName: CategoryName, level: Level) => {
       [Level.Fair]: 'Limited vocabulary, struggles to explain ideas.',
       [Level.Unqualified]: 'Very basic or memorized words only.',
     },
-
     Pronunciation: {
       [Level.Excellent]: 'Crystal clear, no effort needed to understand.',
       [Level.VeryGood]: 'Accent present but easy to understand.',
@@ -56,17 +53,17 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-      <div className="mb-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+    <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 w-full">
+      <div className="mb-3 sm:mb-4">
+        <h2 className="text-lg sm:text-2xl font-bold text-slate-900">
           {category.name}
         </h2>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="text-slate-500 mt-1 text-xs sm:text-sm">
           {category.description}
         </p>
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-2">
         {LEVELS_ORDER.map((level) => {
           const isSelected = selectedLevel === level;
           const config = LEVEL_CONFIG[level];
@@ -77,7 +74,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               <button
                 type="button"
                 onClick={() => onSelect(category.name, level)}
-                className={`group w-full text-left p-3.5 rounded-xl border transition-all duration-200 ease-out
+                className={`group w-full text-left p-3 rounded-xl border transition-all duration-200 ease-out
                   ${
                     isSelected
                       ? 'border-blue-500 bg-blue-50 shadow-sm scale-[1.01]'
@@ -85,10 +82,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                   }
                   focus:outline-none focus:ring-2 focus:ring-blue-100`}
               >
-                <div className="flex justify-between items-start gap-4">
-                  <div>
+                <div className="flex justify-between items-start gap-3">
+                  <div className="min-w-0">
                     <span
-                      className={`font-semibold text-base ${
+                      className={`font-semibold text-sm sm:text-base ${
                         isSelected ? 'text-blue-700' : 'text-slate-800'
                       }`}
                     >
@@ -96,7 +93,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                     </span>
 
                     <p
-                      className={`mt-1 text-xs sm:text-sm leading-5 ${
+                      className={`mt-1 text-[11px] sm:text-sm leading-5 ${
                         isSelected ? 'text-slate-700' : 'text-slate-500'
                       }`}
                     >
@@ -105,7 +102,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                   </div>
 
                   <div
-                    className={`w-4 h-4 rounded-full shrink-0 mt-1 ${config.color} transition-transform duration-200 group-hover:scale-110`}
+                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full shrink-0 mt-1 ${config.color} transition-transform duration-200 group-hover:scale-110`}
                   />
                 </div>
               </button>
