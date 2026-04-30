@@ -69,12 +69,6 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({
 
   return (
     <div className="space-y-5 relative">
-      {copied && (
-        <div className="fixed top-20 right-5 z-50 bg-green-600 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-lg animate-[fadeIn_0.25s_ease-out]">
-          ✅ Summary copied to clipboard!
-        </div>
-      )}
-
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
         <h2 className="text-xl font-bold text-slate-800">Outcome</h2>
 
