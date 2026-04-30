@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Selections, Level } from '../types';
 import { CATEGORIES, LEVEL_CONFIG } from '../constants';
 
@@ -19,6 +19,8 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({
   isComplete,
   onReset,
 }) => {
+  const [copied, setCopied] = useState(false);
+
   const summaryText = [
     candidateName ? `Candidate: ${candidateName}` : null,
     'SUMMARY',
@@ -34,6 +36,11 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({
 
   const handleCopySummary = async () => {
     await navigator.clipboard.writeText(summaryText);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2200);
   };
 
   if (!isComplete || !outcomeLevel) {
@@ -61,7 +68,13 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({
   const config = LEVEL_CONFIG[outcomeLevel];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 relative">
+      {copied && (
+        <div className="fixed top-20 right-5 z-50 bg-green-600 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-lg animate-[fadeIn_0.25s_ease-out]">
+          ✅ Summary copied to clipboard!
+        </div>
+      )}
+
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
         <h2 className="text-xl font-bold text-slate-800">Outcome</h2>
 
@@ -93,9 +106,13 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({
           <button
             type="button"
             onClick={handleCopySummary}
-            className="mt-4 w-full rounded-xl px-5 py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
+            className={`mt-4 w-full rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all duration-200 ${
+              copied
+                ? 'bg-green-600 scale-[1.01]'
+                : 'bg-blue-600 hover:bg-blue-700 hover:-translate-y-0.5'
+            }`}
           >
-            Copy Summary
+            {copied ? '✅ Copied to clipboard!' : 'Copy Summary'}
           </button>
         </div>
       </div>
