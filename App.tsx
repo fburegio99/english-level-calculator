@@ -107,7 +107,21 @@ const App: React.FC = () => {
       <Header />
 
       <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-        <CandidateInput value={candidateName} onChange={handleNameChange} />
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+            <div className="flex-1">
+              <CandidateInput value={candidateName} onChange={handleNameChange} />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              className="w-full sm:w-auto rounded-xl px-5 py-3 text-sm font-semibold text-white bg-slate-600 hover:bg-slate-700 transition"
+            >
+              Reset Grades
+            </button>
+          </div>
+        </div>
 
         {CATEGORIES.map((category, index) => (
           <div
